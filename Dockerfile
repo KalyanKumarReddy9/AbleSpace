@@ -57,6 +57,7 @@ USER node
 # Hugging Face Spaces uses port 7860 by default
 ENV PORT=7860
 ENV NODE_ENV=production
+ENV FRONTEND_URL=https://kalyan9-ablespace.hf.space
 
 # Expose the port
 EXPOSE 7860

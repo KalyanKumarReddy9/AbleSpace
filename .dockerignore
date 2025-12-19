@@ -7,7 +7,7 @@ frontend/node_modules
 backend/dist
 frontend/dist
 
-# Environment files (secrets should be set in HF Spaces)
+# Environment files (secrets set via HF Spaces Settings > Variables)
 .env
 backend/.env
 frontend/.env
