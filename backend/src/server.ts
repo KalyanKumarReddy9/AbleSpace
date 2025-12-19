@@ -77,9 +77,8 @@ console.log('Serving static files from:', publicPath);
 app.use(express.static(publicPath));
 
 // Handle React Router - serve index.html for all non-API routes
-// Express 5 uses path-to-regexp v6, which does not allow bare "*"
-// Using "/*" matches all paths while keeping /api/* handled by the above routes
-app.get('/*', (req, res) => {
+// Using middleware instead of route to avoid path-to-regexp issues in Express 5
+app.use((req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
