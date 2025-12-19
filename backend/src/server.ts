@@ -100,7 +100,7 @@ const connectDB = async () => {
 };
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = parseInt(process.env.PORT || '7860', 10);
 const HOST = '0.0.0.0';
 connectDB().then(() => {
   server.listen(PORT, HOST, () => {
