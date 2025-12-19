@@ -13,6 +13,7 @@ import SocketService from './socket/socket.service';
 
 // Load environment variables
 dotenv.config();
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // Create Express app
 const app = express();
@@ -64,8 +65,10 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/academic', academicTaskRoutes);
 
-// Serve static files from frontend build in production
-if (process.env.NODE_ENV === 'production') {
+const isDev = process.env.NODE_ENV === 'development';
+
+// Serve static files from frontend build in non-dev environments (HF, prod)
+if (!isDev) {
   const publicPath = path.join(__dirname, '..', 'public');
   console.log('Serving static files from:', publicPath);
   
