@@ -91,7 +91,7 @@ const Chat: React.FC<ChatProps> = ({ taskId, currentUser, onBack }) => {
       setMessages(prev => [...prev, message]);
     };
 
-    const handleMessageSent = (message: Message) => {
+    const handleMessageSent = (_message: Message) => {
       // We already have this message from the send action
     };
 
