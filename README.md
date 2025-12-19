@@ -1,3 +1,13 @@
+---
+title: AbleSpace
+emoji: 📚
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+license: mit
+---
+
 # Collaborative Task Management Platform
 
 A real-time collaborative task management application built with React, Node.js, Express, TypeScript, and MongoDB.

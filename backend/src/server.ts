@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import http from 'http';
 import cors from 'cors';
+import path from 'path';
 import { Server } from 'socket.io';
 import userRoutes from './routes/user.routes';
 import taskRoutes from './routes/task.routes';
@@ -66,6 +67,17 @@ app.use('/api/academic', academicTaskRoutes);
 app.get('/', (req, res) => {
   res.send('Task Management API is running...');
 });
+
+// Serve static files from frontend build in production
+if (process.env.NODE_ENV === 'production') {
+  const publicPath = path.join(__dirname, '..', 'public');
+  app.use(express.static(publicPath));
+  
+  // Handle React Router - serve index.html for all non-API routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+  });
+}
 
 // Socket.io connection
 io.on('connection', (socket) => {

@@ -1,0 +1,40 @@
+# Node modules
+node_modules
+backend/node_modules
+frontend/node_modules
+
+# Build outputs (will be generated in Docker)
+backend/dist
+frontend/dist
+
+# Environment files (secrets should be set in HF Spaces)
+.env
+backend/.env
+frontend/.env
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Logs
+*.log
+npm-debug.log*
+
+# Tests
+backend/src/tests
+frontend/src/tests
+**/*.test.ts
+**/*.test.tsx
+jest.config.*
+
+# Documentation
+*.md
+!README.md
+
+# OS files
+.DS_Store
+Thumbs.db
