@@ -64,18 +64,21 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/academic', academicTaskRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Task Management API is running...');
-});
-
 // Serve static files from frontend build in production
 if (process.env.NODE_ENV === 'production') {
   const publicPath = path.join(__dirname, '..', 'public');
+  console.log('Serving static files from:', publicPath);
+  
   app.use(express.static(publicPath));
   
   // Handle React Router - serve index.html for all non-API routes
   app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
+  });
+} else {
+  // Development mode only - show API status message
+  app.get('/', (req, res) => {
+    res.send('Task Management API is running...');
   });
 }
 
