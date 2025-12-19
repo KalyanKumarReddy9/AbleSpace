@@ -40,10 +40,6 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Create non-root user for security (required by HF Spaces)
-RUN addgroup -g 1000 appgroup && \
-    adduser -u 1000 -G appgroup -s /bin/sh -D appuser
-
 # Copy backend build and dependencies
 COPY --from=backend-builder /app/backend/dist ./dist
 COPY --from=backend-builder /app/backend/node_modules ./node_modules
@@ -52,11 +48,11 @@ COPY --from=backend-builder /app/backend/package*.json ./
 # Copy frontend build to be served as static files
 COPY --from=frontend-builder /app/frontend/dist ./public
 
-# Change ownership to non-root user
-RUN chown -R appuser:appgroup /app
+# Change ownership to the existing node user (uid 1000 in node:alpine)
+RUN chown -R node:node /app
 
-# Switch to non-root user
-USER appuser
+# Switch to non-root user (node user already exists in node:alpine)
+USER node
 
 # Hugging Face Spaces uses port 7860 by default
 ENV PORT=7860
