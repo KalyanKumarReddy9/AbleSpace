@@ -13,7 +13,6 @@ import SocketService from './socket/socket.service';
 
 // Load environment variables
 dotenv.config();
-console.log('NODE_ENV:', process.env.NODE_ENV);
 
 // Create Express app
 const app = express();
@@ -65,25 +64,22 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/academic', academicTaskRoutes);
 
-const isDev = process.env.NODE_ENV === 'development';
+// Simple health check endpoint for API
+app.get('/api/health', (req, res) => {
+  res.send('Task Management API is running...');
+});
 
-// Serve static files from frontend build in non-dev environments (HF, prod)
-if (!isDev) {
-  const publicPath = path.join(__dirname, '..', 'public');
-  console.log('Serving static files from:', publicPath);
-  
-  app.use(express.static(publicPath));
-  
-  // Handle React Router - serve index.html for all non-API routes
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
-  });
-} else {
-  // Development mode only - show API status message
-  app.get('/', (req, res) => {
-    res.send('Task Management API is running...');
-  });
-}
+// Always serve static files from frontend build
+// In Docker, dist/server.js runs from /app/dist, and public is at /app/public
+const publicPath = path.join(__dirname, '..', 'public');
+console.log('Serving static files from:', publicPath);
+
+app.use(express.static(publicPath));
+
+// Handle React Router - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
 
 // Socket.io connection
 io.on('connection', (socket) => {
